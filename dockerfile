@@ -1,8 +1,10 @@
-FROM jenkins/jenkins:lts
+FROM gradle:8.5-jdk17
 
-USER root
-RUN apt-get update && apt-get install -y wget unzip
+WORKDIR /app
 
-RUN wget https://services.gradle.org/distributions/gradle-8.7-bin.zip \
-    && unzip gradle-8.7-bin.zip -d /opt \
-    && ln -s /opt/gradle-8.7/bin/gradle /usr/bin/gradle
+COPY . .
+
+RUN gradle build
+
+
+CMD ["gradle", "run"]
